@@ -20,17 +20,19 @@ def bubble_sort(items):
     TODO: Memory usage: ??? Why and under what conditions?"""
     # TODO: Repeat until all items are in sorted order
     # TODO: Swap adjacent items that are out of order
-    steps = 1
-    looks = len(items) - steps 
-    for i in range(looks):
-        for j in range(looks - 1): #-1 for index not to be out of range
+    # steps = 1
+    # looks = len(items) - steps 
+
+    for i in range(len(items)):
+        for j in range(len(items) - 1): #-1 for index not to be out of range
             if items[j] > items[j+1]:
                 temp = items[j]
                 items[j] = items[j+1]
                 items[j+1] = temp
-        steps -= 1
+        # steps -= 1
 
     return items
+    
 def selection_sort(items):
     """Sort given items by finding minimum item, swapping it with first
     unsorted item, and repeating until all items are in sorted order.
