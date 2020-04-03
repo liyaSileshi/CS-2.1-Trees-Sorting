@@ -73,21 +73,24 @@ def insertion_sort(items):
     order in front of items, and repeating until all items are in order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until all items are in sorted order
-    # TODO: Take first unsorted item
-    # TODO: Insert it in sorted order in front of items
+    #Repeat until all items are in sorted order
+    #Take first unsorted item
+    #Insert it in sorted order in front of items
     for i in range(1, len(items)):
-        pulled = items[i]
-        pointer = i - 1 #one below the pulled
-        while (pointer >= 0): #if it's less than 0, it's at first item
-            if pulled < items[pointer]:
-                items[pointer+1] = items[pointer] 
-            else: 
-                break
-            pointer -= 1
-        items[pointer+1] = pulled
-        
+        pulled = items[i] #the item we pulled
+        hole = i #the 'hole' we need to fill by shifting/inserting
+
+        #while hole is greater than the first index
+        #and items before the pulled element is greater
+        # than the pulled element
+        while (hole > 0 and items[hole - 1] > pulled):
+            items[hole] = items[hole-1] #hole gets filled by shifting items to the right
+            hole -= 1 #adjust where the new hole is (adjusted to left)
+
+        items[hole] = pulled #insert the pulled item into the hole
     return items
+
+
 if __name__ == '__main__':
     # print(is_sorted(['a', 'b', 'c', 'd']))
     # print(bubble_sort([5,3]))
