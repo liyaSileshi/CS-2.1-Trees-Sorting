@@ -1,5 +1,6 @@
 #!python
 
+from sorting_iterative import insertion_sort
 
 def merge(items1, items2):
     """Merge given lists of items, each assumed to already be in sorted order,
@@ -32,6 +33,7 @@ def merge(items1, items2):
             items2_pointer += 1
 
     return new_list
+
 def split_sort_merge(items):
     """Sort given items by splitting list into two approximately equal halves,
     sorting each with an iterative sorting algorithm, and merging results into
@@ -42,7 +44,21 @@ def split_sort_merge(items):
     # TODO: Sort each half using any other sorting algorithm
     # TODO: Merge sorted halves into one list in sorted order
 
+    #the first half of the list
+    items1 = items[:len(items)//2]
+    #second half of the list
+    items2 = items[len(items)//2: len(items)]
+    #sort each lists individually
+    items1 = insertion_sort(items1)
+    items2 = insertion_sort(items2)
+    #merge the two sorted lists back
+    merged = merge(items1, items2)
 
+    #copy everything from merged to items one by one
+    for i in range(len(merged)):
+        items[i] = merged[i]
+
+    return items
 def merge_sort(items):
     """Sort given items by splitting list into two approximately equal halves,
     sorting each recursively, and merging results into a list in sorted order.
@@ -81,4 +97,5 @@ def quick_sort(items, low=None, high=None):
 
 
 if __name__ == '__main__':
-    print(merge([1,4,6],[2,3,7]))
+    # print(merge([1,4,6],[2,3,7]))
+    split_sort_merge([3,8,5,2,6,9])
