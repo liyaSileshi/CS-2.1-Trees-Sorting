@@ -9,9 +9,29 @@ def merge(items1, items2):
     # TODO: Repeat until one list is empty
     # TODO: Find minimum item in both lists and append it to new list
     # TODO: Append remaining items in non-empty list to new list
+    new_list = []
+    items1_pointer = 0
+    items2_pointer = 0
+    #both should have items
+    while (items1_pointer < len(items1) and items2_pointer < len(items2)):
+        if (items1[items1_pointer] < items2[items2_pointer]):
+            new_list.append(items1[items1_pointer])
+            items1_pointer += 1
+        else:
+            new_list.append(items2[items2_pointer])
+            items2_pointer += 1
+    #check which pointer is greater(to know which has been copied fully)
+    #then append the remaining items
+    if items1_pointer < items2_pointer:
+        while(items1_pointer < len(items1)):
+            new_list.append(items1[items1_pointer])
+            items1_pointer += 1
+    else:
+        while(items2_pointer < len(items2)):
+            new_list.append(items2[items2_pointer])
+            items2_pointer += 1
 
-
-
+    return new_list
 def split_sort_merge(items):
     """Sort given items by splitting list into two approximately equal halves,
     sorting each with an iterative sorting algorithm, and merging results into
@@ -58,3 +78,7 @@ def quick_sort(items, low=None, high=None):
     # TODO: Check if list or range is so small it's already sorted (base case)
     # TODO: Partition items in-place around a pivot and get index of pivot
     # TODO: Sort each sublist range by recursively calling quick sort
+
+
+if __name__ == '__main__':
+    print(merge([1,4,6],[2,3,7]))
