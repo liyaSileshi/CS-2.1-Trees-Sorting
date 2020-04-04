@@ -59,17 +59,31 @@ def split_sort_merge(items):
         items[i] = merged[i]
 
     return items
+
 def merge_sort(items):
     """Sort given items by splitting list into two approximately equal halves,
     sorting each recursively, and merging results into a list in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
     # TODO: Check if list is so small it's already sorted (base case)
+    if len(items) <= 1:
+        return items
     # TODO: Split items list into approximately equal halves
+    #the first half of the list
+    items1 = items[:len(items)//2]
+    #second half of the list
+    items2 = items[len(items)//2: len(items)]
     # TODO: Sort each half by recursively calling merge sort
+    items1 = merge_sort(items1)
+    items2 = merge_sort(items2)
     # TODO: Merge sorted halves into one list in sorted order
+    merged = merge(items1, items2)
+    #copy everything from merged to items one by one
+    for i in range(len(merged)):
+        items[i] = merged[i]
 
-
+    return items
+    
 def partition(items, low, high):
     """Return index `p` after in-place partitioning given items in range
     `[low...high]` by choosing a pivot (TODO: document your method here) from
@@ -98,4 +112,4 @@ def quick_sort(items, low=None, high=None):
 
 if __name__ == '__main__':
     # print(merge([1,4,6],[2,3,7]))
-    split_sort_merge([3,8,5,2,6,9])
+    print(merge_sort([3,8,5,2,6,9]))
