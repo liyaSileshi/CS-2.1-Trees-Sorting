@@ -11,6 +11,7 @@ def merge(items1, items2):
     # TODO: Append remaining items in non-empty list to new list
 
 
+
 def split_sort_merge(items):
     """Sort given items by splitting list into two approximately equal halves,
     sorting each with an iterative sorting algorithm, and merging results into
