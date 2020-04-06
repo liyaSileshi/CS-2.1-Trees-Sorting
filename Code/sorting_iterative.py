@@ -19,7 +19,7 @@ def swap(items, i, j):
     '''Helper function to swap items'''
     items[i], items[j] = items[j], items[i] 
 
-def bubble_sort(items):
+def bubble_sort(items, ascending=True):
     """Sort given items by swapping adjacent items that are out of order, and
     repeating until all items are in sorted order.
     Running time: Worst case: O(n^2) - we'll have O(n-1) passes
@@ -36,17 +36,21 @@ def bubble_sort(items):
     swapped = False #to keep track if any swaps are being made in one round loop
     for _ in range(looks):
         for j in range(looks - 1): #-1 for index not to be out of range
-            if items[j] > items[j+1]:
-                swap(items, j, j+1) #call the swap function
-                swapped = True #we made a swap
-                
+            if ascending == True: #ascending order
+                if items[j] > items[j+1]:
+                    swap(items, j, j+1) #call the swap function
+                    swapped = True #we made a swap
+            else: #decreasing order
+                if items[j] < items[j+1]:
+                    swap(items, j, j+1) #call the swap function
+                    swapped = True #we made a swap 
         steps -= 1 #decrements because each iteration, the last item will be sorted
         if swapped == False: #no swaps were made; everything is sorted
             return items #exit early
 
     return items
     
-def selection_sort(items):
+def selection_sort(items, ascending=True):
     """Sort given items by finding minimum item, swapping it with first
     unsorted item, and repeating until all items are in sorted order.
     Running time: O(n^2) even if all items are sorted we would have to loop 
@@ -60,18 +64,23 @@ def selection_sort(items):
     # Swap it with first unsorted item
     
     for i in range(len(items)): 
-        curr_min = items[i] #should hold the minimum elt from the given range (updates to find the 'real' minimum)
-        min_index = i #the index of the minimum
-        for j in range(i+1, len(items)): #the items in the right of the curr_min
-            if items[j] < curr_min: #compare the curr_min to each item
-                curr_min = items[j] #if lesser is found, update curr_min
-                min_index = j #update the index as well
+        curr = items[i] #should hold the min/max elt from the given range (updates to find the 'real' min/max)
+        curr_index = i #the index of the min/max
+        for j in range(i+1, len(items)): #the items in the right of the curr
+            if ascending == True: #increasing order
+                if items[j] < curr: #compare the cur to each item
+                    curr = items[j] #if lesser is found, update curr
+                    curr_index = j #update the index as well
+            else: #decreasing order
+                if items[j] > curr: #compare the curr_min to each item
+                    curr = items[j] #if lesser is found, update curr_min
+                    curr_index = j #update the index as well
 
-        if min_index != i: #to make sure curr min was actually updated
-            swap(items, min_index, i) #swap the new min with old min(i)
+        if curr_index != i: #to make sure curr min was actually updated
+            swap(items, curr_index, i) #swap the new min with old min(i)
     return items 
 
-def insertion_sort(items):
+def insertion_sort(items, ascending=True):
     """Sort given items by taking first unsorted item, inserting it in sorted
     order in front of items, and repeating until all items are in order.
     Running time: Best case: O(n) - if all items are sorted, yet it has to check if they are
@@ -87,9 +96,14 @@ def insertion_sort(items):
         #while hole is greater than the first index
         #and items before the pulled element is greater
         # than the pulled element
-        while (hole > 0 and items[hole - 1] > pulled):
-            items[hole] = items[hole-1] #hole gets filled by shifting items to the right
-            hole -= 1 #adjust where the new hole is (adjusted to left)
+        if ascending == True: #increasing order
+            while (hole > 0 and items[hole - 1] > pulled):
+                items[hole] = items[hole-1] #hole gets filled by shifting items to the right
+                hole -= 1 #adjust where the new hole is (adjusted to left)
+        else: #decreasing order
+             while (hole > 0 and items[hole - 1] < pulled):
+                items[hole] = items[hole-1] #hole gets filled by shifting items to the right
+                hole -= 1 #adjust where the new hole is (adjusted to left)
 
         items[hole] = pulled #insert the pulled item into the hole
     return items
@@ -97,6 +111,6 @@ def insertion_sort(items):
 
 if __name__ == '__main__':
     # print(is_sorted(['a', 'b', 'c', 'd']))
-    # print(bubble_sort([5,3]))
-    # print(selection_sort([5,3]))
-    print(insertion_sort([5,3,7]))
+    # print(bubble_sort([5,3,4,7,8],False))
+    # print(selection_sort([5,3,3,9,0,8], False))
+    print(insertion_sort([5,3,7], False))

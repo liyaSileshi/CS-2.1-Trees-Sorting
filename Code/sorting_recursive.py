@@ -7,9 +7,9 @@ def merge(items1, items2):
     and return a new list containing all items in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until one list is empty
-    # TODO: Find minimum item in both lists and append it to new list
-    # TODO: Append remaining items in non-empty list to new list
+    #Repeat until one list is empty
+    #Find minimum item in both lists and append it to new list
+    #Append remaining items in non-empty list to new list
     new_list = []
     items1_pointer = 0
     items2_pointer = 0
@@ -40,9 +40,9 @@ def split_sort_merge(items):
     a list in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Split items list into approximately equal halves
-    # TODO: Sort each half using any other sorting algorithm
-    # TODO: Merge sorted halves into one list in sorted order
+    #Split items list into approximately equal halves
+    # Sort each half using any other sorting algorithm
+    # Merge sorted halves into one list in sorted order
 
     #the first half of the list
     items1 = items[:len(items)//2]
@@ -65,18 +65,18 @@ def merge_sort(items):
     sorting each recursively, and merging results into a list in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Check if list is so small it's already sorted (base case)
+    #Check if list is so small it's already sorted (base case)
     if len(items) <= 1:
         return items
-    # TODO: Split items list into approximately equal halves
+    #Split items list into approximately equal halves
     #the first half of the list
     items1 = items[:len(items)//2]
     #second half of the list
     items2 = items[len(items)//2: len(items)]
-    # TODO: Sort each half by recursively calling merge sort
+    #Sort each half by recursively calling merge sort
     items1 = merge_sort(items1)
     items2 = merge_sort(items2)
-    # TODO: Merge sorted halves into one list in sorted order
+    #Merge sorted halves into one list in sorted order
     merged = merge(items1, items2)
     #copy everything from merged to items one by one
     for i in range(len(merged)):
