@@ -3,8 +3,9 @@
 
 def is_sorted(items):
     """Return a boolean indicating whether given items are in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+    Running time: Best case: O(1) - if no items or 1 item
+                  Worst case:  O(n) - if everything is sorted except the last two items
+    Memory usage: O(1) - we're not creating new memory"""
     #Check that all adjacent items are in order, return early if so
     if len(items) < 2: #if there is only 1 item or none
         return True
@@ -25,7 +26,8 @@ def bubble_sort(items):
                                         and checking to swap each element with
                                         the rest of the elements O(n)
                   Best case: O(n) - when the items are sorted. 
-    TODO: Memory usage: ??? Why and under what conditions?"""
+    Memory usage: When we're swapping we're not making new memory, we're just ch
+                   changing reference"""
     #Repeat until all items are in sorted order
     #Swap adjacent items that are out of order
 
@@ -51,7 +53,8 @@ def selection_sort(items):
                     through the entire array to check if there's minimum than
                     current...
 
-    TODO: Memory usage: ??? Why and under what conditions?"""
+    Memory usage: O(1)- in the for loop we're changing reference not making
+                        new memory"""
     # Repeat until all items are in sorted order
     # Find minimum item in unsorted items
     # Swap it with first unsorted item
@@ -71,8 +74,9 @@ def selection_sort(items):
 def insertion_sort(items):
     """Sort given items by taking first unsorted item, inserting it in sorted
     order in front of items, and repeating until all items are in order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+    Running time: Best case: O(n) - if all items are sorted, yet it has to check if they are
+                  Worst case: O(n^2) - if sorted in decreasing order
+    Memory usage: O(1) no new memory allocated"""
     #Repeat until all items are in sorted order
     #Take first unsorted item
     #Insert it in sorted order in front of items
