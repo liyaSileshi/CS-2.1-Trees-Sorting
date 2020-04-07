@@ -1,7 +1,6 @@
 #!python
 
-from sorting_iterative import insertion_sort
-
+from sorting_iterative import insertion_sort, swap
 def merge(items1, items2):
     """Merge given lists of items, each assumed to already be in sorted order,
     and return a new list containing all items in sorted order.
@@ -23,14 +22,15 @@ def merge(items1, items2):
             items2_pointer += 1
     #check which pointer is greater(to know which has been copied fully)
     #then append the remaining items
-    if items1_pointer < items2_pointer:
-        while(items1_pointer < len(items1)):
-            new_list.append(items1[items1_pointer])
-            items1_pointer += 1
-    else:
-        while(items2_pointer < len(items2)):
-            new_list.append(items2[items2_pointer])
-            items2_pointer += 1
+    # if items1_pointer < items2_pointer:
+        # while(items1_pointer < len(items1)):
+    new_list.extend(items1[items1_pointer:])
+            # new_list.append(items1[items1_pointer])
+            # items1_pointer += 1
+    # else:
+        # while(items2_pointer < len(items2)):
+    new_list.extend(items2[items2_pointer:])
+            # items2_pointer += 1
 
     return new_list
 
@@ -55,8 +55,9 @@ def split_sort_merge(items):
     merged = merge(items1, items2)
 
     #copy everything from merged to items one by one
-    for i in range(len(merged)):
-        items[i] = merged[i]
+    # for i in range(len(merged)):
+    #     items[i] = merged[i]
+    items[:] = merged
 
     return items
 
@@ -92,10 +93,30 @@ def partition(items, low, high):
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
     # TODO: Choose a pivot any way and document your method in docstring above
+    pivot = (len(items) - 1)#the last elt 
+    high = pivot - 1
     # TODO: Loop through all items in range [low...high]
     # TODO: Move items less than pivot into front of range [low...p-1]
+
     # TODO: Move items greater than pivot into back of range [p+1...high]
     # TODO: Move pivot item into final position [p] and return index p
+    while low < high:
+        #check items in low index and high index with pivot
+        #if low is greater than pivot, and high is less than pivot, swap
+        if items[low] > items[pivot] and items[high] < items[pivot]:
+            swap(items, low, high)
+        #elt at low is on the right place
+        if items[low] < items[pivot]: 
+            low += 1 #increment low
+        #elt at high is at its right place
+        if items[high] > items[pivot]:
+            high -=1 #decrement high
+        
+    #low passes high; swap low with pivot
+    swap(items, low, pivot)
+
+    #return index of old pivot
+    return low
 
 
 def quick_sort(items, low=None, high=None):
@@ -112,4 +133,6 @@ def quick_sort(items, low=None, high=None):
 
 if __name__ == '__main__':
     # print(merge([1,4,6],[2,3,7]))
-    print(merge_sort([3,8,5,2,6,9]))
+    # print(merge_sort([3,8,5,2,6,9]))
+    items = [9,5,2,6,1,11,3]
+    print(partition(items,0,len(items)-1))

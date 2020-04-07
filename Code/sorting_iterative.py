@@ -108,6 +108,8 @@ def insertion_sort(items, ascending=True):
         items[hole] = pulled #insert the pulled item into the hole
     return items
 
+def cocktail_shaker_sort():
+    pass
 
 if __name__ == '__main__':
     # print(is_sorted(['a', 'b', 'c', 'd']))
