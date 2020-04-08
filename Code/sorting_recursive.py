@@ -93,7 +93,9 @@ def partition(items, low, high):
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
     # TODO: Choose a pivot any way and document your method in docstring above
-    pivot = (len(items) - 1)#the last elt 
+    # pivot = (len(items) - 1)#the last elt 
+    # high = pivot - 1
+    pivot = high
     high = pivot - 1
     # TODO: Loop through all items in range [low...high]
     # TODO: Move items less than pivot into front of range [low...p-1]
@@ -106,15 +108,15 @@ def partition(items, low, high):
         if items[low] > items[pivot] and items[high] < items[pivot]:
             swap(items, low, high)
         #elt at low is on the right place
-        if items[low] < items[pivot]: 
+        if items[low] <= items[pivot]: 
             low += 1 #increment low
         #elt at high is at its right place
-        if items[high] > items[pivot]:
+        if items[high] >= items[pivot]:
             high -=1 #decrement high
         
     #low passes high; swap low with pivot
     swap(items, low, pivot)
-    # print(items)
+    print(items)
     #return index of old pivot
     return low
 
@@ -132,18 +134,21 @@ def quick_sort(items, low=None, high=None):
     if low is None or high is None:
         low = 0
         high = len(items) - 1
-    if len(items) <= 1: #already sorted
-        return items
 
+    # if len(items) <= 1: #already sorted
+    #     return
+
+    # if (high - low) <= 1: 
+    #     return
     #sort based on the pivot and save the pivot inside a variable
     
-    if (high - low) <= 1:
-        return
-
-    pivot = partition(items, low, high)
-    quick_sort(items, low, pivot - 1)
-    quick_sort(items, pivot+1, high)
-
+    # print('low',low)
+    # print('high',high)
+    if low < high:
+        pivot = partition(items, low, high)
+        quick_sort(items, low, pivot - 1)
+        quick_sort(items, pivot+1, high)
+    print(items)
     # return items
 if __name__ == '__main__':
     # print(merge([1,4,6],[2,3,7]))
@@ -151,5 +156,5 @@ if __name__ == '__main__':
     items = [9,5,2,6,1,11,3]
     items2 = [1,2]
     items3 = [6,9,11,5]
-    # print(partition(items3,0,len(items3)-1))
+    # print(partition(items,0,len(items)-1))
     print(quick_sort(items, 0, len(items)-1))
