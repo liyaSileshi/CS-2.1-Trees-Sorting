@@ -14,7 +14,7 @@ def merge(items1, items2):
     items2_pointer = 0
     #both should have items
     while (items1_pointer < len(items1) and items2_pointer < len(items2)):
-        if (items1[items1_pointer] < items2[items2_pointer]):
+        if (items1[items1_pointer] < items2[items2_pointer]): #check for stable
             new_list.append(items1[items1_pointer])
             items1_pointer += 1
         else:
@@ -92,10 +92,8 @@ def partition(items, low, high):
     `[low...p-1]`, and items greater than pivot into range `[p+1...high]`.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Choose a pivot any way and document your method in docstring above
-    # pivot = (len(items) - 1)#the last elt 
-    # high = pivot - 1
-    pivot = high
+    #Choose a pivot any way and document your method in docstring above
+    pivot = high #the last elt
     high = pivot - 1
     # TODO: Loop through all items in range [low...high]
     # TODO: Move items less than pivot into front of range [low...p-1]
@@ -106,7 +104,8 @@ def partition(items, low, high):
         #check items in low index and high index with pivot
         #if low is greater than pivot, and high is less than pivot, swap
         if items[low] > items[pivot] and items[high] < items[pivot]:
-            swap(items, low, high)
+            # swap(items, low, high)
+            items[low], items[high] = items[high], items[low]
         #elt at low is on the right place
         if items[low] <= items[pivot]: 
             low += 1 #increment low
@@ -115,8 +114,9 @@ def partition(items, low, high):
             high -=1 #decrement high
         
     #low passes high; swap low with pivot
-    swap(items, low, pivot)
-    print(items)
+    items[low], items[pivot] = items[pivot], items[low]
+    # swap(items, low, pivot)
+    # print(items)
     #return index of old pivot
     return low
 
@@ -136,25 +136,23 @@ def quick_sort(items, low=None, high=None):
         high = len(items) - 1
 
     # if len(items) <= 1: #already sorted
-    #     return
+    #     return items
 
     # if (high - low) <= 1: 
     #     return
     #sort based on the pivot and save the pivot inside a variable
     
-    # print('low',low)
-    # print('high',high)
     if low < high:
         pivot = partition(items, low, high)
         quick_sort(items, low, pivot - 1)
         quick_sort(items, pivot+1, high)
-    print(items)
-    # return items
+
 if __name__ == '__main__':
     # print(merge([1,4,6],[2,3,7]))
     # print(merge_sort([3,8,5,2,6,9]))
     items = [9,5,2,6,1,11,3]
-    items2 = [1,2]
+    items2 = [1]
     items3 = [6,9,11,5]
     # print(partition(items,0,len(items)-1))
-    print(quick_sort(items, 0, len(items)-1))
+    quick_sort(items)
+    print(items)
