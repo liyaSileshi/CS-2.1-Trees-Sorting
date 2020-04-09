@@ -4,8 +4,8 @@ from sorting_iterative import insertion_sort, swap
 def merge(items1, items2):
     """Merge given lists of items, each assumed to already be in sorted order,
     and return a new list containing all items in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+    Running time: O(m+n): it's going to go through each item in the array and check
+    Memory usage: O(m+n): new list is made with size of item1+item2"""
     #Repeat until one list is empty
     #Find minimum item in both lists and append it to new list
     #Append remaining items in non-empty list to new list
@@ -38,8 +38,9 @@ def split_sort_merge(items):
     """Sort given items by splitting list into two approximately equal halves,
     sorting each with an iterative sorting algorithm, and merging results into
     a list in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+    Running time: Best case : same as insertion sort O(n)
+                  Worst case: same as insertion sort O(n^2) 
+    Memory usage: O(n): we make a new array to merge it back"""
     #Split items list into approximately equal halves
     # Sort each half using any other sorting algorithm
     # Merge sorted halves into one list in sorted order
@@ -64,8 +65,11 @@ def split_sort_merge(items):
 def merge_sort(items):
     """Sort given items by splitting list into two approximately equal halves,
     sorting each recursively, and merging results into a list in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+    Running time: O(nlogn): wether it's sorted or unsorted it will keep on
+                        breaking into a smaller list until it's of size 1.
+                        which is logn and it will do that for n items. so O(nlogn)
+    Memory usage: O(nlogn): we're making new list memory each time merge_sort
+                        is recursively called"""
     #Check if list is so small it's already sorted (base case)
     if len(items) <= 1:
         return items

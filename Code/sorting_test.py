@@ -2,7 +2,7 @@
 
 from sorting import random_ints
 from sorting_iterative import is_sorted, bubble_sort, selection_sort, insertion_sort
-from sorting_recursive import split_sort_merge, merge_sort, quick_sort
+from sorting_recursive import split_sort_merge, merge_sort, quick_sort, merge
 from sorting_integer import counting_sort, bucket_sort
 import unittest
 
@@ -206,7 +206,27 @@ class StringSortTest(unittest.TestCase):
         sort(items)  # Mutate
         assert items == sorted_items
 
+class MergeSortTest(unittest.TestCase):
+    #test cases for merge and mergesort
+    def test_merge(self):
+        items1 = [1, 4, 5] #sorted
+        items2 = [2, 3, 6] #sorted
+        assert merge(items1, items2) == [1, 2, 3, 4, 5, 6]
+        items3 = [] #empty
+        items4 = [1]
+        assert merge(items3, items4) == [1]
+        items5 = [2, 3, 7]
+        assert merge(items2, items5) == [2, 2, 3, 3, 6, 7]
 
+    def test_split_sort_merge(self):
+        items = [2, 3, 4, 5, 2, 3] #have duplicates
+        split_sort_merge(items)
+        assert items == [2, 2, 3, 3, 4, 5]
+        items2 = [] #empty set
+        split_sort_merge(items2) 
+        assert items2 == []
+
+    
 def get_sort_function():
     """Read command-line argument and return sort function with that name."""
     import sys
