@@ -26,7 +26,7 @@ def bubble_sort(items, ascending=True):
                                         and checking to swap each element with
                                         the rest of the elements O(n)
                   Best case: O(n) - when the items are sorted. 
-    Memory usage: When we're swapping we're not making new memory, we're just ch
+    Memory usage: O(1) When we're swapping we're not making new memory, we're just ch
                    changing reference"""
     #Repeat until all items are in sorted order
     #Swap adjacent items that are out of order
@@ -49,7 +49,6 @@ def bubble_sort(items, ascending=True):
             return items #exit early
 
     return items
-    
 def selection_sort(items, ascending=True):
     """Sort given items by finding minimum item, swapping it with first
     unsorted item, and repeating until all items are in sorted order.
@@ -108,11 +107,43 @@ def insertion_sort(items, ascending=True):
         items[hole] = pulled #insert the pulled item into the hole
     return items
 
-def cocktail_shaker_sort():
-    pass
+def cocktail_shaker_sort(items):
+    """Sort given items by swapping adjacent items that are out of order, and
+    repeating until all items are in sorted order. both backwards and forward
+    Running time: Worst case: O(n^2) 
+                  Best case: O(n) - when the items are sorted. 
+    Memory usage: O(1) """
+    steps = 0 #to track the range of items we want to compare
+    looks = len(items) - steps #the range of item we'll compare
+    swapped = False #to keep track if any swaps are being made in one round loop
+    start = 1 #start pointer; increases each time revese bubble sort loop runs
+
+    for _ in range(looks):
+        for j in range(looks - 1): #-1 for index not to be out of range
+                if items[j] > items[j+1]:
+                    swap(items, j, j+1) #call the swap function
+                    swapped = True #we made a swap
+            
+        steps -= 1 #decrements because each iteration, the last item will be sorted
+        if swapped == False: #no swaps were made; everything is sorted
+            return items #exit early
+
+        swapped = False #start with swap being false for reverse bubble sort
+        for k in reversed(range(start, looks-1)):
+            if items[k] < items[k-1]:
+                items[k], items[k-1] = items[k-1], items[k]
+                swapped = True
+        start += 1 #increment start 
+        if swapped == False: #no swaps were made; everything is sorted
+            return items #exit early
+
+    return items
 
 if __name__ == '__main__':
     # print(is_sorted(['a', 'b', 'c', 'd']))
     # print(bubble_sort([5,3,4,7,8],False))
     # print(selection_sort([5,3,3,9,0,8], False))
-    print(insertion_sort([5,3,7], False))
+    # print(insertion_sort([5,3,7], False))
+    print(cocktail_shaker_sort([2,4,6,2,1,3]))
+    # for i in reversed( range(1, 10)):
+    #     print(i)
