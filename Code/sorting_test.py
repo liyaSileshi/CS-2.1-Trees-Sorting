@@ -2,7 +2,7 @@
 
 from sorting import random_ints
 from sorting_iterative import is_sorted, bubble_sort, selection_sort, insertion_sort
-from sorting_recursive import split_sort_merge, merge_sort, quick_sort, merge
+from sorting_recursive import split_sort_merge, merge_sort, quick_sort, merge, partition
 from sorting_integer import counting_sort, bucket_sort
 import unittest
 
@@ -226,7 +226,18 @@ class MergeSortTest(unittest.TestCase):
         split_sort_merge(items2) 
         assert items2 == []
 
-    
+class QuickSortTest(unittest.TestCase):
+    def test_partition(self):
+        items = [2,4,1,3]
+        assert partition(items, 0, len(items)-1) == 2 #index of the old pivot
+        items2 = []
+        assert partition(items2, 0, len(items2)-1) == None #no partition
+        items3 = [2] #1 item
+        assert partition(items3, 0, len(items3)-1) == 0  #doesn't enter the while loop
+        items4 = [4, 1]
+        assert partition(items4, 0, len(items4)-1) == 0 #enters the while loop
+
+
 def get_sort_function():
     """Read command-line argument and return sort function with that name."""
     import sys

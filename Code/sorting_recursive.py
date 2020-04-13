@@ -1,6 +1,9 @@
 #!python
 
 from sorting_iterative import insertion_sort, swap
+import random
+import time
+ 
 def merge(items1, items2):
     """Merge given lists of items, each assumed to already be in sorted order,
     and return a new list containing all items in sorted order.
@@ -62,6 +65,7 @@ def split_sort_merge(items):
 
     return items
 
+
 def merge_sort(items):
     """Sort given items by splitting list into two approximately equal halves,
     sorting each recursively, and merging results into a list in sorted order.
@@ -88,6 +92,31 @@ def merge_sort(items):
         items[i] = merged[i]
 
     return items
+
+def time_merge():
+    '''
+    Time test for merge
+    '''
+    start_time = time.time()
+    merge_sort([5,3,4,7,8])
+    end_time = time.time()
+    print(end_time - start_time)
+
+    start_time2 = time.time()
+    merge_sort([random.randint(1, 100) for _ in range(20)])
+    end_time2 = time.time()
+    print(end_time2 - start_time2)
+
+    start_time3 = time.time()
+    merge_sort([random.randint(1, 100) for _ in range(40)])
+    end_time3 = time.time()
+    print(end_time3 - start_time3)
+
+    #Merge sort is much faster when compared to iterative sorts when the list gets larger
+    start_time4 = time.time()
+    merge_sort([random.randint(1, 100000) for _ in range(1000)])
+    end_time4 = time.time()
+    print(end_time4 - start_time4)
     
 def partition(items, low, high):
     """Return index `p` after in-place partitioning given items in range
@@ -96,8 +125,14 @@ def partition(items, low, high):
     `[low...p-1]`, and items greater than pivot into range `[p+1...high]`.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
+
+    if len(items) == 0: #no items to partition
+        return #return None
+
     #Choose a pivot any way and document your method in docstring above
     pivot = high #the last elt
+
+    
     high = pivot - 1
     # TODO: Loop through all items in range [low...high]
     # TODO: Move items less than pivot into front of range [low...p-1]
@@ -152,11 +187,8 @@ def quick_sort(items, low=None, high=None):
         quick_sort(items, pivot+1, high)
 
 if __name__ == '__main__':
-    # print(merge([1,4,6],[2,3,7]))
-    # print(merge_sort([3,8,5,2,6,9]))
-    items = [9,5,2,6,1,11,3]
-    items2 = [1]
-    items3 = [6,9,11,5]
-    # print(partition(items,0,len(items)-1))
-    quick_sort(items)
-    print(items)
+    # time_merge()
+    items = [2,4,1,3]
+    print(partition(items,0,len(items)-1))
+    # quick_sort(items)
+    # print(items)

@@ -1,5 +1,16 @@
 #!python
 
+import time
+import random
+
+def timer(func):
+    def _timer(*args):
+        start_time = time.time()
+        res = func(*args)
+        end_time = time.time()
+        print(end_time - start_time)
+        return res
+    return _timer
 
 def is_sorted(items):
     """Return a boolean indicating whether given items are in sorted order.
@@ -19,6 +30,7 @@ def swap(items, i, j):
     '''Helper function to swap items'''
     items[i], items[j] = items[j], items[i] 
 
+@timer
 def bubble_sort(items, ascending=True):
     """Sort given items by swapping adjacent items that are out of order, and
     repeating until all items are in sorted order.
@@ -49,6 +61,8 @@ def bubble_sort(items, ascending=True):
             return items #exit early
 
     return items
+
+@timer
 def selection_sort(items, ascending=True):
     """Sort given items by finding minimum item, swapping it with first
     unsorted item, and repeating until all items are in sorted order.
@@ -79,6 +93,7 @@ def selection_sort(items, ascending=True):
             swap(items, curr_index, i) #swap the new min with old min(i)
     return items 
 
+@timer
 def insertion_sort(items, ascending=True):
     """Sort given items by taking first unsorted item, inserting it in sorted
     order in front of items, and repeating until all items are in order.
@@ -107,6 +122,7 @@ def insertion_sort(items, ascending=True):
         items[hole] = pulled #insert the pulled item into the hole
     return items
 
+@timer
 def cocktail_shaker_sort(items):
     """Sort given items by swapping adjacent items that are out of order, and
     repeating until all items are in sorted order. both backwards and forward
@@ -140,10 +156,7 @@ def cocktail_shaker_sort(items):
     return items
 
 if __name__ == '__main__':
-    # print(is_sorted(['a', 'b', 'c', 'd']))
-    # print(bubble_sort([5,3,4,7,8],False))
-    # print(selection_sort([5,3,3,9,0,8], False))
-    # print(insertion_sort([5,3,7], False))
-    print(cocktail_shaker_sort([2,4,6,2,1,3]))
-    # for i in reversed( range(1, 10)):
-    #     print(i)
+
+    print(bubble_sort([5,3,4,7,8]))
+    print(bubble_sort([random.randint(1, 100000) for _ in range(1000)]))
+    print(cocktail_shaker_sort([5,3,4,7,8]))
