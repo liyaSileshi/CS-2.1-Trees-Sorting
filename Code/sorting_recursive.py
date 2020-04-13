@@ -93,31 +93,52 @@ def merge_sort(items):
 
     return items
 
-def time_merge():
+def time_merge_quick():
     '''
-    Time test for merge
+    Time test for merge sort and quick sort
     '''
+    #for small lists, merge sort is better than quick sort
     start_time = time.time()
     merge_sort([5,3,4,7,8])
     end_time = time.time()
-    print(end_time - start_time)
+    print('merge sort', end_time - start_time)
+    start_time = time.time()
+    quick_sort([5,3,4,7,8])
+    end_time = time.time()
+    print('quick sort', end_time - start_time)
+    print()
 
     start_time2 = time.time()
-    merge_sort([random.randint(1, 100) for _ in range(20)])
+    merge_sort([random.randint(1, 20) for _ in range(20)])
     end_time2 = time.time()
-    print(end_time2 - start_time2)
+    print('merge sort', end_time2 - start_time2)
+    start_time2 = time.time()
+    quick_sort([random.randint(1, 20) for _ in range(20)])
+    end_time2 = time.time()
+    print('quick sort', end_time2 - start_time2)
+    print()
 
     start_time3 = time.time()
     merge_sort([random.randint(1, 100) for _ in range(40)])
     end_time3 = time.time()
-    print(end_time3 - start_time3)
+    print('merge sort', end_time3 - start_time3)
+    start_time3 = time.time()
+    quick_sort([random.randint(1, 100) for _ in range(40)])
+    end_time3 = time.time()
+    print('quick sort', end_time3 - start_time3)
+    print()
 
     #Merge sort is much faster when compared to iterative sorts when the list gets larger
+    #as the list grows larger, merge sort and quick sort have similar run time
     start_time4 = time.time()
     merge_sort([random.randint(1, 100000) for _ in range(1000)])
     end_time4 = time.time()
-    print(end_time4 - start_time4)
-    
+    print('merge sort', end_time4 - start_time4)
+    start_time4 = time.time()
+    quick_sort([random.randint(1, 100000) for _ in range(1000)])
+    end_time4 = time.time()
+    print('quick sort', end_time4 - start_time4)
+
 def partition(items, low, high):
     """Return index `p` after in-place partitioning given items in range
     `[low...high]` by choosing a pivot (TODO: document your method here) from
@@ -187,8 +208,8 @@ def quick_sort(items, low=None, high=None):
         quick_sort(items, pivot+1, high)
 
 if __name__ == '__main__':
-    # time_merge()
-    items = [2,4,1,3]
-    print(partition(items,0,len(items)-1))
+    time_merge_quick()
+    # items = [2,4,1,3]
+    # print(partition(items,0,len(items)-1))
     # quick_sort(items)
     # print(items)
