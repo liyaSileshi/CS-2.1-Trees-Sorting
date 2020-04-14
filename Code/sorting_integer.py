@@ -12,6 +12,22 @@ def counting_sort(numbers):
     # TODO: Loop over counts and append that many numbers into output list
     # FIXME: Improve this to mutate input instead of creating new output list
 
+    minimum = min(numbers)
+    # print('min',minimum)
+    maximum = max(numbers)
+    # print('max', maximum)
+    hist_num = [0 for i in range(maximum - minimum + 1)]
+    
+    #make the histogram array
+    for i in numbers:
+        hist_num[i - minimum] += 1
+
+    #create a pointer
+    pointer = 0
+    for index, frequency in enumerate(hist_num): #loop over your 'histogram'
+        for i in range(frequency):
+            numbers[pointer] = index + minimum    #overwrite the orignal list
+            pointer += 1 #increment pointer
 
 def bucket_sort(numbers, num_buckets=10):
     """Sort given numbers by distributing into buckets representing subranges,
@@ -24,3 +40,9 @@ def bucket_sort(numbers, num_buckets=10):
     # TODO: Sort each bucket using any sorting algorithm (recursive or another)
     # TODO: Loop over buckets and append each bucket's numbers into output list
     # FIXME: Improve this to mutate input instead of creating new output list
+    pass
+
+
+numbers = [10, 10, 11, 10]
+counting_sort(numbers)
+print(numbers)
