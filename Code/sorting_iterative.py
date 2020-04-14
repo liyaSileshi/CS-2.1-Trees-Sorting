@@ -93,7 +93,7 @@ def selection_sort(items, ascending=True):
             swap(items, curr_index, i) #swap the new min with old min(i)
     return items 
 
-@timer
+# @timer
 def insertion_sort(items, ascending=True):
     """Sort given items by taking first unsorted item, inserting it in sorted
     order in front of items, and repeating until all items are in order.

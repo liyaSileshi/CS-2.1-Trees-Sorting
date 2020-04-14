@@ -1,5 +1,5 @@
 #!python
-
+from sorting_iterative import insertion_sort
 
 def counting_sort(numbers):
     """Sort given numbers (integers) by counting occurrences of each number,
@@ -13,9 +13,7 @@ def counting_sort(numbers):
     # FIXME: Improve this to mutate input instead of creating new output list
 
     minimum = min(numbers)
-    # print('min',minimum)
     maximum = max(numbers)
-    # print('max', maximum)
     hist_num = [0 for i in range(maximum - minimum + 1)]
     
     #make the histogram array
@@ -26,7 +24,7 @@ def counting_sort(numbers):
     pointer = 0
     for index, frequency in enumerate(hist_num): #loop over your 'histogram'
         for i in range(frequency):
-            numbers[pointer] = index + minimum    #overwrite the orignal list
+            numbers[pointer] = index + minimum #overwrite the orignal list
             pointer += 1 #increment pointer
 
 def bucket_sort(numbers, num_buckets=10):
@@ -40,9 +38,39 @@ def bucket_sort(numbers, num_buckets=10):
     # TODO: Sort each bucket using any sorting algorithm (recursive or another)
     # TODO: Loop over buckets and append each bucket's numbers into output list
     # FIXME: Improve this to mutate input instead of creating new output list
-    pass
+    maximum = max(numbers)
+    minimum = min(numbers)
+    range_bucket = (maximum - minimum + 1) / num_buckets 
+    #make the buckets
+    buckets = [[] for _ in range(num_buckets)]
+    print(buckets)
+    print(range_bucket)
+
+    # for j in numbers:
+    #     index_bucket = int(j * num_buckets)
+    #     buckets[index_bucket].append(j)
+    for i in range(len(numbers)):
+        index_bucket = int((numbers[i] - minimum) / range_bucket)
+        buckets[index_bucket].append(numbers[i])
+
+    print(buckets)
+
+    #do insertion sort on each bucket
+    [insertion_sort(i) for i in buckets]
+
+    print(buckets)
+
+    pointer = 0
+    for bucket in buckets: #loop over your buckets
+        for i in range(len(bucket)): #loop in each bucket
+            numbers[pointer] = bucket[i] #overwrite the orignal list
+            pointer += 1 #increment pointer
+
+    print(numbers)
 
 
-numbers = [10, 10, 11, 10]
-counting_sort(numbers)
-print(numbers)
+
+numbers = [10 ,10, 10, 11, 9, 8, 7, 3, 4]
+# counting_sort(numbers)
+# print(numbers)
+bucket_sort(numbers, 5)
