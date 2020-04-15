@@ -3,6 +3,7 @@
 from sorting_iterative import insertion_sort, swap
 import random
 import time
+from random import randint
  
 def merge(items1, items2):
     """Merge given lists of items, each assumed to already be in sorted order,
@@ -141,7 +142,7 @@ def time_merge_quick():
 
 def partition(items, low, high):
     """Return index `p` after in-place partitioning given items in range
-    `[low...high]` by choosing a pivot (TODO: document your method here) from
+    `[low...high]` by choosing a pivot (randomly selecting an item and swapping with high) from
     that range, moving pivot into index `p`, items less than pivot into range
     `[low...p-1]`, and items greater than pivot into range `[p+1...high]`.
     TODO: Running time: ??? Why and under what conditions?
@@ -150,16 +151,13 @@ def partition(items, low, high):
     if len(items) == 0: #no items to partition
         return #return None
 
-    #Choose a pivot any way and document your method in docstring above
+    #use random item as pivot
+    pivot_index = randint(low, high)
+    #swap it with high(pivot)
+    items[pivot_index], items[high] = items[high], items[pivot_index]
     pivot = high #the last elt
-
-    
     high = pivot - 1
-    # TODO: Loop through all items in range [low...high]
-    # TODO: Move items less than pivot into front of range [low...p-1]
 
-    # TODO: Move items greater than pivot into back of range [p+1...high]
-    # TODO: Move pivot item into final position [p] and return index p
     while low <= high:
         #check items in low index and high index with pivot
         #if low is greater than pivot, and high is less than pivot, swap
@@ -175,41 +173,36 @@ def partition(items, low, high):
         
     #low passes high; swap low with pivot
     items[low], items[pivot] = items[pivot], items[low]
-    # swap(items, low, pivot)
-    # print(items)
+
     #return index of old pivot
     return low
-
 
 def quick_sort(items, low=None, high=None):
     """Sort given items in place by partitioning items in range `[low...high]`
     around a pivot item and recursively sorting each remaining sublist range.
-    TODO: Best case running time: ??? Why and under what conditions?
-    TODO: Worst case running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Check if high and low range bounds have default values (not given)
+    TODO: Best case running time: O(nlogn) Why and under what conditions?
+    Worst case running time: O(n^2): if the list is sorted
+    Memory usage: O(logn) since we're calling it recursively, the call stack will
+                    keep on saving variables O(logn) times."""
+    
     # TODO: Check if list or range is so small it's already sorted (base case)
-    # TODO: Partition items in-place around a pivot and get index of pivot
-    # TODO: Sort each sublist range by recursively calling quick sort
+    
+    
+    #Check if high and low range bounds have default values (not given)
     if low is None or high is None:
         low = 0
         high = len(items) - 1
 
-    # if len(items) <= 1: #already sorted
-    #     return items
-
-    # if (high - low) <= 1: 
-    #     return
-    #sort based on the pivot and save the pivot inside a variable
-    
+    #Sort each sublist range by recursively calling quick sort
     if low < high:
+        #Partition items in-place around a pivot and get index of pivot
         pivot = partition(items, low, high)
         quick_sort(items, low, pivot - 1)
         quick_sort(items, pivot+1, high)
 
 if __name__ == '__main__':
-    time_merge_quick()
-    # items = [2,4,1,3]
+    # time_merge_quick()
+    items = [2,4,1,3]
     # print(partition(items,0,len(items)-1))
-    # quick_sort(items)
-    # print(items)
+    quick_sort(items)
+    print(items)

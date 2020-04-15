@@ -9,7 +9,7 @@ class PrefixTreeNode:
 
     # Choose a type of data structure to store children nodes in
     # Hint: Choosing list or dict affects implementation of all child methods
-    CHILDREN_TYPE = None
+    CHILDREN_TYPE = dict()
 
     def __init__(self, character=None):
         """Initialize this prefix tree node with the given character value, an
