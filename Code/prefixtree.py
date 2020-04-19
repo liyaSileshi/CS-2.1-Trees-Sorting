@@ -87,7 +87,6 @@ class PrefixTree:
         #return node and depth 
         return node, depth
 
-
     def complete(self, prefix):
         """Return a list of all strings stored in this prefix tree that start
         with the given prefix string."""
@@ -95,10 +94,15 @@ class PrefixTree:
         completions = []
         #find node of prefix
         node = self._find_node(prefix)[0]
+
+        #check if node is found (if it's not root node)
+        if node == self.root:
+            return [] #means node not found
+
         #check if node is terminal
         if node.is_terminal():
             completions.append(prefix) #append the prefix
-
+   
         for ch in node.children:
             #get the node
             child_node = node.get_child(ch)
@@ -106,7 +110,6 @@ class PrefixTree:
         
         return completions
     
-
     #helper function for complete (traverse?????)
     def colHelp(self, string, list_complete, strNode):
         #append to list if node is terminal
@@ -140,8 +143,6 @@ class PrefixTree:
                 self._traverse(node.get_child(child), prefix+child, visit)
 
         visit(node.character)
-
-
         #while there is a child node and the, get the child node
 
 
@@ -151,7 +152,7 @@ def create_prefix_tree(strings):
     tree = PrefixTree()
     print(f'\ntree: {tree}')
     print(f'root: {tree.root}')
-    # print(f'strings: {tree.strings()}')
+    print(f'strings: {tree.strings()}')
 
     print('\nInserting strings:')
     for string in strings:
@@ -168,8 +169,6 @@ def create_prefix_tree(strings):
 
     print('\nSearching for strings not in tree:')
     prefixes = sorted(set(string[:len(string)//2] for string in strings))
-    # print(prefixes)
-    # print(tree._find_node('She'))
     for prefix in prefixes:
         if len(prefix) == 0 or prefix in strings:
             continue
@@ -180,8 +179,7 @@ def create_prefix_tree(strings):
     for prefix in prefixes:
         completions = tree.complete(prefix)
         print(f'complete({prefix!r}): {completions}')
-    comp = tree.complete('Shelly')
-    print('liyacomp',comp)
+
     print('\nRetrieving all strings:')
     retrieved_strings = tree.strings()
     print(f'strings: {retrieved_strings}')
