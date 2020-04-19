@@ -29,17 +29,17 @@ class PrefixTree:
             for string in strings:
                 self.insert(string)
 
-    # def __repr__(self):
-    #     """Return a string representation of this prefix tree."""
-    #     return f'PrefixTree({self.strings()!r})'
+    def __repr__(self):
+        """Return a string representation of this prefix tree."""
+        return f'PrefixTree({self.strings()!r})'
 
     def is_empty(self):
         """Return True if this prefix tree is empty (contains no strings)."""
         return self.size == 0
 
-    # def contains(self, string):
-    #     """Return True if this prefix tree contains the given string."""
-    #     return string in self.strings()
+    def contains(self, string):
+        """Return True if this prefix tree contains the given string."""
+        return string in self.strings()
 
     def insert(self, string):
         """Insert the given string into this prefix tree."""
@@ -92,51 +92,51 @@ class PrefixTree:
         completions = []
         #find node of prefix
         node = self._find_node(prefix)[0]
-        print(node)
+ 
         for ch in node.children:
-            #get the child node
+            #get the node
             child_node = node.get_child(ch)
             self.colHelp(prefix+ch, completions, child_node)
-            #check if it's terminal
-            # if child_node.is_terminal():
+        
         return completions
     
 
-    #helper function for complete
+    #helper function for complete (traverse?????)
     def colHelp(self, string, list_complete, strNode):
-
         #append to list if node is terminal
         if strNode.is_terminal():
             list_complete.append(string)
-        # print(list_complete)
+
         for child in strNode.children:
+            #recursively call the method on each child
             self.colHelp(string+child, list_complete, strNode.get_child(child))
 
 
+    def strings(self):
+        """Return a list of all strings stored in this prefix tree."""
+        # Create a list of all strings in prefix tree
+        all_strings = []
+        node = self.root
+        for child in node.children:
+            child_node = node.get_child(child)
+            self.colHelp(child, all_strings, child_node)
+        return all_strings
+
+    def _traverse(self, node, prefix, visit):
+        """Traverse this prefix tree with recursive depth-first traversal.
+        Start at the given node with the given prefix representing its path in
+        this prefix tree and visit each node with the given visit function."""
+        # TODO
+        #if node has children
+        if len(node.children) > 0:
+            # loop over each children, and traverse for each children
+            for child in node.children:
+                self._traverse(node.get_child(child), prefix+child, visit)
+
+        visit(node.character)
 
 
-
-
-
-
-
-
-
-
-
-
-
-    # def strings(self):
-    #     """Return a list of all strings stored in this prefix tree."""
-    #     # Create a list of all strings in prefix tree
-    #     all_strings = []
-    #     # TODO
-
-    # def _traverse(self, node, prefix, visit):
-    #     """Traverse this prefix tree with recursive depth-first traversal.
-    #     Start at the given node with the given prefix representing its path in
-    #     this prefix tree and visit each node with the given visit function."""
-    #     # TODO
+        #while there is a child node and the, get the child node
 
 
 def create_prefix_tree(strings):
@@ -155,31 +155,32 @@ def create_prefix_tree(strings):
     print(f'\ntree: {tree}')
     print(f'root: {tree.root}')
 
-    # print('\nSearching for strings in tree:')
-    # for string in sorted(set(strings)):
-    #     result = tree.contains(string)
-    #     print(f'contains({string!r}): {result}')
+    print('\nSearching for strings in tree:')
+    for string in sorted(set(strings)):
+        result = tree.contains(string)
+        print(f'contains({string!r}): {result}')
 
     print('\nSearching for strings not in tree:')
     prefixes = sorted(set(string[:len(string)//2] for string in strings))
-    print(prefixes)
+    # print(prefixes)
     # print(tree._find_node('She'))
-    # for prefix in prefixes:
-    #     if len(prefix) == 0 or prefix in strings:
-    #         continue
-    #     result = tree.contains(prefix)
-    #     print(f'contains({prefix!r}): {result}')
+    for prefix in prefixes:
+        if len(prefix) == 0 or prefix in strings:
+            continue
+        result = tree.contains(prefix)
+        print(f'contains({prefix!r}): {result}')
     
     print('\nCompleting prefixes in tree:')
     for prefix in prefixes:
         completions = tree.complete(prefix)
         print(f'complete({prefix!r}): {completions}')
-
-    # print('\nRetrieving all strings:')
-    # retrieved_strings = tree.strings()
-    # print(f'strings: {retrieved_strings}')
-    # matches = set(retrieved_strings) == set(strings)
-    # print(f'matches? {matches}')
+    # comp = tree.complete('')
+    # print(comp)
+    print('\nRetrieving all strings:')
+    retrieved_strings = tree.strings()
+    print(f'strings: {retrieved_strings}')
+    matches = set(retrieved_strings) == set(strings)
+    print(f'matches? {matches}')
 
 
 def main():
