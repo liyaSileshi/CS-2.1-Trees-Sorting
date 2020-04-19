@@ -43,23 +43,23 @@ class PrefixTree:
 
     def insert(self, string):
         """Insert the given string into this prefix tree."""
-        #check if the first character a child of the root
-        if not self.root.has_child(string[0]):
-            node = PrefixTreeNode(string[0])
-            self.root.add_child(string[0], node)
-        #get the start child
-        ch_child = self.root.get_child(string[0])
-        #loop over the string and add as a child 
-        for i in range(1, len(string)):
-            #if the child has a child, get the child
-            #else add the child
-            if ch_child.has_child(string[i]):
-                ch_child = ch_child.get_child(string[i])
-            else:
-                nodei = PrefixTreeNode(string[i])
-                ch_child.add_child(string[i], nodei)
-        #increment size property
+        node = self.root
+        for ch in string:
+            #if node has the char child get it
+            if node.has_child(ch):
+                node = node.get_child(ch)
+    
+            else: #insert it
+                #make new node with the char
+                new_node = PrefixTreeNode(ch)
+                #add it
+                node.add_child(ch, new_node)
+                #reassign node
+                node = new_node
+        #increment size
         self.size += 1
+        #change the last node to a terminal
+        node.terminal = True
 
     def _find_node(self, string):
         """Return a pair containing the deepest node in this prefix tree that
@@ -72,7 +72,6 @@ class PrefixTree:
         # Start with the root node
         depth = 0
         node = self.root
-
         #loop through the string
         for char in string:
             #if node has child
@@ -80,6 +79,8 @@ class PrefixTree:
                 #get the child and make it the new node
                 node = node.get_child(char)
                 depth += 1
+            else:
+                break
         #return node and depth 
         return node, depth
 
@@ -89,8 +90,27 @@ class PrefixTree:
         with the given prefix string."""
         # Create a list of completions in prefix tree
         completions = []
-        # TODO
+        #find node of prefix
+        node = self._find_node(prefix)[0]
+        print(node)
+        for ch in node.children:
+            #get the child node
+            child_node = node.get_child(ch)
+            self.colHelp(prefix+ch, completions, child_node)
+            #check if it's terminal
+            # if child_node.is_terminal():
+        return completions
+    
 
+    #helper function for complete
+    def colHelp(self, string, list_complete, strNode):
+
+        #append to list if node is terminal
+        if strNode.is_terminal():
+            list_complete.append(string)
+        # print(list_complete)
+        for child in strNode.children:
+            self.colHelp(string+child, list_complete, strNode.get_child(child))
 
 
 
@@ -140,18 +160,20 @@ def create_prefix_tree(strings):
     #     result = tree.contains(string)
     #     print(f'contains({string!r}): {result}')
 
-    # print('\nSearching for strings not in tree:')
-    # prefixes = sorted(set(string[:len(string)//2] for string in strings))
+    print('\nSearching for strings not in tree:')
+    prefixes = sorted(set(string[:len(string)//2] for string in strings))
+    print(prefixes)
+    # print(tree._find_node('She'))
     # for prefix in prefixes:
     #     if len(prefix) == 0 or prefix in strings:
     #         continue
     #     result = tree.contains(prefix)
     #     print(f'contains({prefix!r}): {result}')
-
-    # print('\nCompleting prefixes in tree:')
-    # for prefix in prefixes:
-    #     completions = tree.complete(prefix)
-    #     print(f'complete({prefix!r}): {completions}')
+    
+    print('\nCompleting prefixes in tree:')
+    for prefix in prefixes:
+        completions = tree.complete(prefix)
+        print(f'complete({prefix!r}): {completions}')
 
     # print('\nRetrieving all strings:')
     # retrieved_strings = tree.strings()
