@@ -29,21 +29,37 @@ class PrefixTree:
             for string in strings:
                 self.insert(string)
 
-    def __repr__(self):
-        """Return a string representation of this prefix tree."""
-        return f'PrefixTree({self.strings()!r})'
+    # def __repr__(self):
+    #     """Return a string representation of this prefix tree."""
+    #     return f'PrefixTree({self.strings()!r})'
 
     def is_empty(self):
         """Return True if this prefix tree is empty (contains no strings)."""
-        # TODO
+        return self.size == 0
 
-    def contains(self, string):
-        """Return True if this prefix tree contains the given string."""
-        # TODO
+    # def contains(self, string):
+    #     """Return True if this prefix tree contains the given string."""
+    #     return string in self.strings()
 
     def insert(self, string):
         """Insert the given string into this prefix tree."""
-        # TODO
+        #check if the first character a child of the root
+        if not self.root.has_child(string[0]):
+            node = PrefixTreeNode(string[0])
+            self.root.add_child(string[0], node)
+        #get the start child
+        ch_child = self.root.get_child(string[0])
+        #loop over the string and add as a child 
+        for i in range(1, len(string)):
+            #if the child has a child, get the child
+            #else add the child
+            if ch_child.has_child(string[i]):
+                ch_child = ch_child.get_child(string[i])
+            else:
+                nodei = PrefixTreeNode(string[i])
+                ch_child.add_child(string[i], nodei)
+        #increment size property
+        self.size += 1
 
     def _find_node(self, string):
         """Return a pair containing the deepest node in this prefix tree that
@@ -54,8 +70,19 @@ class PrefixTree:
         if len(string) == 0:
             return self.root, 0
         # Start with the root node
+        depth = 0
         node = self.root
-        # TODO
+
+        #loop through the string
+        for char in string:
+            #if node has child
+            if node.has_child(char):
+                #get the child and make it the new node
+                node = node.get_child(char)
+                depth += 1
+        #return node and depth 
+        return node, depth
+
 
     def complete(self, prefix):
         """Return a list of all strings stored in this prefix tree that start
@@ -64,17 +91,32 @@ class PrefixTree:
         completions = []
         # TODO
 
-    def strings(self):
-        """Return a list of all strings stored in this prefix tree."""
-        # Create a list of all strings in prefix tree
-        all_strings = []
-        # TODO
 
-    def _traverse(self, node, prefix, visit):
-        """Traverse this prefix tree with recursive depth-first traversal.
-        Start at the given node with the given prefix representing its path in
-        this prefix tree and visit each node with the given visit function."""
-        # TODO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # def strings(self):
+    #     """Return a list of all strings stored in this prefix tree."""
+    #     # Create a list of all strings in prefix tree
+    #     all_strings = []
+    #     # TODO
+
+    # def _traverse(self, node, prefix, visit):
+    #     """Traverse this prefix tree with recursive depth-first traversal.
+    #     Start at the given node with the given prefix representing its path in
+    #     this prefix tree and visit each node with the given visit function."""
+    #     # TODO
 
 
 def create_prefix_tree(strings):
@@ -83,7 +125,7 @@ def create_prefix_tree(strings):
     tree = PrefixTree()
     print(f'\ntree: {tree}')
     print(f'root: {tree.root}')
-    print(f'strings: {tree.strings()}')
+    # print(f'strings: {tree.strings()}')
 
     print('\nInserting strings:')
     for string in strings:
@@ -93,32 +135,36 @@ def create_prefix_tree(strings):
     print(f'\ntree: {tree}')
     print(f'root: {tree.root}')
 
-    print('\nSearching for strings in tree:')
-    for string in sorted(set(strings)):
-        result = tree.contains(string)
-        print(f'contains({string!r}): {result}')
+    # print('\nSearching for strings in tree:')
+    # for string in sorted(set(strings)):
+    #     result = tree.contains(string)
+    #     print(f'contains({string!r}): {result}')
 
-    print('\nSearching for strings not in tree:')
-    prefixes = sorted(set(string[:len(string)//2] for string in strings))
-    for prefix in prefixes:
-        if len(prefix) == 0 or prefix in strings:
-            continue
-        result = tree.contains(prefix)
-        print(f'contains({prefix!r}): {result}')
+    # print('\nSearching for strings not in tree:')
+    # prefixes = sorted(set(string[:len(string)//2] for string in strings))
+    # for prefix in prefixes:
+    #     if len(prefix) == 0 or prefix in strings:
+    #         continue
+    #     result = tree.contains(prefix)
+    #     print(f'contains({prefix!r}): {result}')
 
-    print('\nCompleting prefixes in tree:')
-    for prefix in prefixes:
-        completions = tree.complete(prefix)
-        print(f'complete({prefix!r}): {completions}')
+    # print('\nCompleting prefixes in tree:')
+    # for prefix in prefixes:
+    #     completions = tree.complete(prefix)
+    #     print(f'complete({prefix!r}): {completions}')
 
-    print('\nRetrieving all strings:')
-    retrieved_strings = tree.strings()
-    print(f'strings: {retrieved_strings}')
-    matches = set(retrieved_strings) == set(strings)
-    print(f'matches? {matches}')
+    # print('\nRetrieving all strings:')
+    # retrieved_strings = tree.strings()
+    # print(f'strings: {retrieved_strings}')
+    # matches = set(retrieved_strings) == set(strings)
+    # print(f'matches? {matches}')
 
 
-if __name__ == '__main__':
+def main():
+    # Simpe test case of string with partial substring overlaps
+    strings = ['ABC', 'ABD', 'A', 'XYZ']
+    create_prefix_tree(strings)
+
     # Create a dictionary of tongue-twisters with similar words to test with
     tongue_twisters = {
         'Seashells': 'Shelly sells seashells by the sea shore'.split(),
@@ -128,6 +174,11 @@ if __name__ == '__main__':
     }
     # Create a prefix tree with the similar words in each tongue-twister
     for name, strings in tongue_twisters.items():
-        print('\n' + '='*80 + '\n')
         print(f'{name} tongue-twister:')
         create_prefix_tree(strings)
+        if len(tongue_twisters) > 1:
+            print('\n' + '='*80 + '\n')
+
+
+if __name__ == '__main__':
+    main()
