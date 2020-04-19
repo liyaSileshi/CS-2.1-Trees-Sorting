@@ -44,11 +44,11 @@ class PrefixTree:
     def insert(self, string):
         """Insert the given string into this prefix tree."""
         node = self.root
+        flag = False #to check wether a new string was inserted or not
         for ch in string:
             #if node has the char child get it
             if node.has_child(ch):
                 node = node.get_child(ch)
-    
             else: #insert it
                 #make new node with the char
                 new_node = PrefixTreeNode(ch)
@@ -56,8 +56,11 @@ class PrefixTree:
                 node.add_child(ch, new_node)
                 #reassign node
                 node = new_node
-        #increment size
-        self.size += 1
+                flag = True #new string inserted
+        #check if new str was inserted
+        if flag == True:
+            #increment size
+            self.size += 1
         #change the last node to a terminal
         node.terminal = True
 
@@ -92,7 +95,10 @@ class PrefixTree:
         completions = []
         #find node of prefix
         node = self._find_node(prefix)[0]
- 
+        #check if node is terminal
+        if node.is_terminal():
+            completions.append(prefix) #append the prefix
+
         for ch in node.children:
             #get the node
             child_node = node.get_child(ch)
@@ -174,8 +180,8 @@ def create_prefix_tree(strings):
     for prefix in prefixes:
         completions = tree.complete(prefix)
         print(f'complete({prefix!r}): {completions}')
-    # comp = tree.complete('')
-    # print(comp)
+    comp = tree.complete('Shelly')
+    print('liyacomp',comp)
     print('\nRetrieving all strings:')
     retrieved_strings = tree.strings()
     print(f'strings: {retrieved_strings}')
