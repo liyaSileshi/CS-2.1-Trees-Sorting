@@ -106,20 +106,19 @@ class PrefixTree:
         for ch in node.children:
             #get the node
             child_node = node.get_child(ch)
-            self.colHelp(prefix+ch, completions, child_node)
-        
+            # self.colHelp(prefix+ch, completions, child_node)
+            self._traverse(child_node, prefix + ch , completions.append)
         return completions
     
     #helper function for complete (traverse?????)
-    def colHelp(self, string, list_complete, strNode):
-        #append to list if node is terminal
-        if strNode.is_terminal():
-            list_complete.append(string)
+    # def colHelp(self, string, list_complete, strNode):
+    #     #append to list if node is terminal
+    #     if strNode.is_terminal():
+    #         list_complete.append(string)
 
-        for child in strNode.children:
-            #recursively call the method on each child
-            self.colHelp(string+child, list_complete, strNode.get_child(child))
-
+    #     for child in strNode.children:
+    #         #recursively call the method on each child
+    #         self.colHelp(string+child, list_complete, strNode.get_child(child))
 
     def strings(self):
         """Return a list of all strings stored in this prefix tree."""
@@ -128,22 +127,21 @@ class PrefixTree:
         node = self.root
         for child in node.children:
             child_node = node.get_child(child)
-            self.colHelp(child, all_strings, child_node)
+            # self.colHelp(child, all_strings, child_node)
+            self._traverse(child_node, child , all_strings.append)
         return all_strings
 
     def _traverse(self, node, prefix, visit):
         """Traverse this prefix tree with recursive depth-first traversal.
         Start at the given node with the given prefix representing its path in
         this prefix tree and visit each node with the given visit function."""
-        # TODO
+        if node.is_terminal():
+            visit(prefix) #append the prefix
         #if node has children
         if len(node.children) > 0:
             # loop over each children, and traverse for each children
             for child in node.children:
                 self._traverse(node.get_child(child), prefix+child, visit)
-
-        visit(node.character)
-        #while there is a child node and the, get the child node
 
 
 def create_prefix_tree(strings):
