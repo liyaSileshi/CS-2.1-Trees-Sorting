@@ -38,13 +38,20 @@ class PrefixTree:
         return self.size == 0
 
     def contains(self, string):
-        """Return True if this prefix tree contains the given string."""
-        return string in self.strings()
+        """Return True if this prefix tree contains the given string.""" 
+        
+        #find node of string
+        node, depth = self._find_node(string)
+
+        # if depth equals len(string) return true
+        if depth == len(string) and node.is_terminal():
+            return True
+        #else return false
+        return False
 
     def insert(self, string):
         """Insert the given string into this prefix tree."""
         node = self.root
-        flag = False #to check wether a new string was inserted or not
         for ch in string:
             #if node has the char child get it
             if node.has_child(ch):
@@ -56,13 +63,10 @@ class PrefixTree:
                 node.add_child(ch, new_node)
                 #reassign node
                 node = new_node
-                flag = True #new string inserted
         #check if new str was inserted
-        if flag == True:
-            #increment size
+        if not node.is_terminal():
             self.size += 1
-        #change the last node to a terminal
-        node.terminal = True
+            node.terminal = True
 
     def _find_node(self, string):
         """Return a pair containing the deepest node in this prefix tree that
@@ -83,8 +87,7 @@ class PrefixTree:
                 node = node.get_child(char)
                 depth += 1
             else:
-                break
-        #return node and depth 
+                return None, depth
         return node, depth
 
     def complete(self, prefix):
@@ -96,8 +99,8 @@ class PrefixTree:
         node = self._find_node(prefix)[0]
 
         #check if node is found (if it's not root node)
-        if node == self.root:
-            return [] #means node not found
+        if node == None:
+            return completions #means node not found
 
         #check if node is terminal
         if node.is_terminal():
@@ -106,19 +109,9 @@ class PrefixTree:
         for ch in node.children:
             #get the node
             child_node = node.get_child(ch)
-            # self.colHelp(prefix+ch, completions, child_node)
             self._traverse(child_node, prefix + ch , completions.append)
         return completions
     
-    #helper function for complete (traverse?????)
-    # def colHelp(self, string, list_complete, strNode):
-    #     #append to list if node is terminal
-    #     if strNode.is_terminal():
-    #         list_complete.append(string)
-
-    #     for child in strNode.children:
-    #         #recursively call the method on each child
-    #         self.colHelp(string+child, list_complete, strNode.get_child(child))
 
     def strings(self):
         """Return a list of all strings stored in this prefix tree."""
@@ -127,7 +120,6 @@ class PrefixTree:
         node = self.root
         for child in node.children:
             child_node = node.get_child(child)
-            # self.colHelp(child, all_strings, child_node)
             self._traverse(child_node, child , all_strings.append)
         return all_strings
 

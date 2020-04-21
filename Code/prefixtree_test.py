@@ -233,6 +233,9 @@ class PrefixTreeTest(unittest.TestCase):
         assert tree.complete('Y') == []
         assert tree.complete('Z') == []
 
+        #more tests
+        assert tree.complete('') == ['A', 'ABC', 'ABD', 'XYZ']
+
     def test_strings(self):
         tree = PrefixTree()
         input_strings = []  # Strings that have been inserted into the tree
