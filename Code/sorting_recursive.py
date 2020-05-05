@@ -84,8 +84,8 @@ def merge_sort(items):
     #second half of the list
     items2 = items[len(items)//2: len(items)]
     #Sort each half by recursively calling merge sort
-    items1 = merge_sort(items1)
-    items2 = merge_sort(items2)
+    items1 = merge_sort(items1) 
+    items2 = merge_sort(items2) 
     #Merge sorted halves into one list in sorted order
     merged = merge(items1, items2)
     #copy everything from merged to items one by one
@@ -162,7 +162,6 @@ def partition(items, low, high):
         #check items in low index and high index with pivot
         #if low is greater than pivot, and high is less than pivot, swap
         if items[low] > items[pivot] and items[high] < items[pivot]:
-            # swap(items, low, high)
             items[low], items[high] = items[high], items[low]
         #elt at low is on the right place
         if items[low] <= items[pivot]: 

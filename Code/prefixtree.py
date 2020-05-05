@@ -90,6 +90,7 @@ class PrefixTree:
                 return None, depth
         return node, depth
 
+
     def complete(self, prefix):
         """Return a list of all strings stored in this prefix tree that start
         with the given prefix string."""
@@ -169,7 +170,8 @@ def create_prefix_tree(strings):
     for prefix in prefixes:
         completions = tree.complete(prefix)
         print(f'complete({prefix!r}): {completions}')
-
+    comp = tree.complete('My garms')
+    print('liya', comp)
     print('\nRetrieving all strings:')
     retrieved_strings = tree.strings()
     print(f'strings: {retrieved_strings}')
@@ -184,14 +186,17 @@ def main():
 
     # Create a dictionary of tongue-twisters with similar words to test with
     tongue_twisters = {
-        'Seashells': 'Shelly sells seashells by the sea shore'.split(),
-        # 'Peppers': 'Peter Piper picked a peck of pickled peppers'.split(),
+        # 'Seashells': 'Shelly sells seashells by the sea shore'.split(),
+        'Seashells': 'She smell like Yves Saint Laurent.My garms are from Italy, I feel like the Don'.split('.'),
+
+        # 'Peppers': 'My garms are from Italy, I feel like the Don'.split(),
         # 'Woodchuck': ('How much wood would a wood chuck chuck'
         #                ' if a wood chuck could chuck wood').split()
     }
     # Create a prefix tree with the similar words in each tongue-twister
     for name, strings in tongue_twisters.items():
         print(f'{name} tongue-twister:')
+        print('testLiya', strings)
         create_prefix_tree(strings)
         if len(tongue_twisters) > 1:
             print('\n' + '='*80 + '\n')
