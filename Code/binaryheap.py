@@ -156,7 +156,7 @@ class BinaryMinHeap(object):
 
 def heap_sort(items):
     '''
-    Time complexity: O(nlogn) - building heap takes O(n), sorting O(logn)
+    Time complexity: O(nlogn) - building heap takes O(n), sorting each item O(logn)
     Space complexity: O(n) - creating a new list
     '''
     #build the heap

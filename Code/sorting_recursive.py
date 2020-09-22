@@ -149,7 +149,7 @@ def partition(items, low, high):
     TODO: Memory usage: ??? Why and under what conditions?"""
 
     if len(items) == 0: #no items to partition
-        return #return None
+        return 
 
     #use random item as pivot
     pivot_index = randint(low, high)
@@ -179,14 +179,11 @@ def partition(items, low, high):
 def quick_sort(items, low=None, high=None):
     """Sort given items in place by partitioning items in range `[low...high]`
     around a pivot item and recursively sorting each remaining sublist range.
-    TODO: Best case running time: O(nlogn) Why and under what conditions?
+    Best case running time: O(nlogn) Why and under what conditions?
     Worst case running time: O(n^2): if the list is sorted
     Memory usage: O(logn) since we're calling it recursively, the call stack will
                     keep on saving variables O(logn) times."""
-    
-    # TODO: Check if list or range is so small it's already sorted (base case)
-    
-    
+        
     #Check if high and low range bounds have default values (not given)
     if low is None or high is None:
         low = 0
@@ -198,6 +195,7 @@ def quick_sort(items, low=None, high=None):
         pivot = partition(items, low, high)
         quick_sort(items, low, pivot - 1)
         quick_sort(items, pivot+1, high)
+
 
 if __name__ == '__main__':
     # time_merge_quick()
